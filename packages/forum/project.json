@@ -1,0 +1,84 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/forum/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/packages/forum",
+        "index": "packages/forum/src/index.html",
+        "baseHref": "/",
+        "main": "packages/forum/src/main.tsx",
+        "polyfills": "packages/forum/src/polyfills.ts",
+        "tsConfig": "packages/forum/tsconfig.app.json",
+        "assets": [
+          "packages/forum/src/favicon.ico",
+          "packages/forum/src/assets"
+        ],
+        "styles": ["packages/forum/src/styles.scss"],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "packages/forum/src/environments/environment.ts",
+              "with": "packages/forum/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "forum:build",
+        "hmr": true,
+        "proxyConfig": "packages/forum/proxy.conf.json"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "forum:build:development"
+        },
+        "production": {
+          "buildTarget": "forum:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/forum/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/forum"],
+      "options": {
+        "jestConfig": "packages/forum/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
