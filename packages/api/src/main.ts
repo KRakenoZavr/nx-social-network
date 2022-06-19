@@ -1,8 +1,8 @@
 import * as Koa from 'koa'
 import * as Router from '@koa/router'
 import * as bodyParser from 'koa-bodyparser'
-import * as UserRoutes from './api/users'
 import * as mongoose from 'mongoose'
+import * as UserRoutes from './api/users'
 
 const app = new Koa()
 const router = new Router()
@@ -39,7 +39,10 @@ app
   .use(UserRoutes.router.routes())
   .use(router.allowedMethods())
 
-mongoose.connect('mongodb://localhost')
+mongoose.connect('mongodb://localhost', {
+  dbName: 'social-network',
+  autoIndex: true,
+})
 
 app.listen(3000, () => {
   console.log('Succesfully started at port: http://localhost:3000')

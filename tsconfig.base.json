@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@next-electron-app/controllers": ["packages/controllers/src/index.ts"],
+      "@next-electron-app/interfaces": ["packages/interfaces/src/index.ts"],
+      "@next-electron-app/models": ["packages/models/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

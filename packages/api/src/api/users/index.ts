@@ -1,15 +1,25 @@
 import * as Router from '@koa/router'
-import * as UserController from '../../controllers/user'
+import {
+  saveUser,
+  getUsers,
+  updateUser,
+  getUser,
+} from '@next-electron-app/controllers'
+
 export const router = new Router({ prefix: '/users' })
 
-router.post('/', async (ctx, next) => {
-  const result = await UserController.updateOne(ctx.request.body)
-  console.log(result)
-  ctx.body = { result }
+router.post('/', async (ctx) => {
+  ctx.body = await saveUser(ctx.request.body)
 })
 
-router.get('/', async (ctx, next) => {
-  const result = await UserController.getUsers()
-  console.log(result)
-  ctx.body = { result }
+router.get('/', async (ctx) => {
+  ctx.body = await getUsers()
+})
+
+router.post('/:id', async (ctx) => {
+  ctx.body = await updateUser(ctx.request.body, ctx.params.id)
+})
+
+router.get('/:id', async (ctx) => {
+  ctx.body = await getUser(ctx.params.id)
 })

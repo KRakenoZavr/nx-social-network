@@ -3,8 +3,11 @@
   "version": 2,
   "projects": {
     "api": "packages/api",
+    "controllers": "packages/controllers",
     "forum": "packages/forum",
     "forum-e2e": "packages/forum-e2e",
+    "interfaces": "packages/interfaces",
+    "models": "packages/models",
     "socket-io": "packages/socket-io"
   }
 }
