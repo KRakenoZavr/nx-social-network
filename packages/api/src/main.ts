@@ -3,6 +3,7 @@ import * as Router from '@koa/router'
 import * as bodyParser from 'koa-bodyparser'
 import * as mongoose from 'mongoose'
 import * as UserRoutes from './api/users'
+import * as PostRoutes from './api/posts'
 
 const app = new Koa()
 const router = new Router()
@@ -31,13 +32,9 @@ app.use(async (ctx, next) => {
   ctx.set('X-Response-Time', `${ms}ms`)
 })
 
-router.get('/', (ctx, next) => {
-  ctx.body = { data: 'Hello World!' }
-})
-
 app
-  .use(router.routes())
   .use(UserRoutes.router.routes())
+  .use(PostRoutes.router.routes())
   .use(router.allowedMethods())
 
 mongoose.connect('mongodb://localhost', {
