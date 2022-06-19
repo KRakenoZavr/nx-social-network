@@ -8,7 +8,7 @@ import {
 import { User } from '@next-electron-app/models'
 import { MongoServerError } from 'mongodb'
 
-const errorHandler = (err) => {
+const errorHandler = (err: any) => {
   if (err instanceof Error) {
     return {
       data: err.message,
@@ -52,7 +52,7 @@ export const getUsers: GetUsers = async () => {
     }
   } catch (err) {
     console.log({ err })
-    return { data: err, code: 1 }
+    return errorHandler(err)
   }
 }
 
@@ -66,11 +66,11 @@ export const updateUser: UpdateUser = async (user, id) => {
       },
       { runValidators: true }
     )
+    if (data.modifiedCount === 0) {
+      return { data: 'User not found', code: 1 }
+    }
     return {
-      data:
-        data.modifiedCount === 1
-          ? 'Successfully updated user info'
-          : 'User not found',
+      data: 'Successfully updated user info',
       code: 0,
     }
   } catch (err) {
@@ -93,29 +93,3 @@ export const getUser: GetUser = async (id) => {
     return errorHandler(err)
   }
 }
-
-// const funcList: FuncListMap = {
-//   saveUser,
-//   getUsers,
-//   updateUser,
-//   getUser,
-// }
-
-// export const userController = async (
-//   funcName: FuncListStr,
-//   ...args: UserArgs[]
-// ) => {
-//   try {
-//     const data = await funcList[funcName](...args)
-//     return {
-//       data,
-//       code: 0,
-//     }
-//   } catch (err) {
-//     console.log({ err, args })
-//     return {
-//       data: err,
-//       code: 1,
-//     }
-//   }
-// }
