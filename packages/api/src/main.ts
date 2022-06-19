@@ -17,6 +17,7 @@ app.use(
 
 // logger
 app.use(async (ctx, next) => {
+  console.log(`${ctx.method} ${ctx.url}`)
   await next()
   const rt = ctx.response.get('X-Response-Time')
   console.log(`${ctx.method} ${ctx.url} - ${rt}`)
