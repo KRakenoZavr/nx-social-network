@@ -27,11 +27,25 @@ const userSchema = new mongoose.Schema({
     min: new Date('1922'),
     max: new Date(),
   },
+
+  token: {
+    type: String,
+    default: null,
+  },
+
   nickname: {
     type: String,
+    default: null,
   },
-  avatar: String,
-  about: String,
+  avatar: {
+    type: String,
+    default: null,
+  },
+  about: {
+    type: String,
+    default: null,
+  },
+
   updatedAt: Date,
   createdAt: Date,
 })
