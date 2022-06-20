@@ -1,4 +1,4 @@
-import { ApiResponse, MongoID } from '.'
+import { ApiResponse, MongoID, DefaultString } from '.'
 import * as mongoose from 'mongoose'
 
 export interface IUser extends mongoose.Document {
@@ -8,12 +8,13 @@ export interface IUser extends mongoose.Document {
   password: string
   birthDate: Date
 
-  nickname?: string
-  avatar?: string
-  about?: string
+  nickname: DefaultString
+  avatar: DefaultString
+  about: DefaultString
 }
 
 export interface CreatedUser extends IUser {
+  token: string
   updatedAt: Date
   createdAt: Date
 }

@@ -9,6 +9,7 @@ export interface ApiResponse {
 }
 
 export type MongoID = string
+export type DefaultString = string | null
 
 export * from './users'
 export * from './posts'
