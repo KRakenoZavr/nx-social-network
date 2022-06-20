@@ -1,4 +1,4 @@
-import { controllers } from './controllers'
+import { controllers } from '.'
 
 describe('controllers', () => {
   it('should work', () => {

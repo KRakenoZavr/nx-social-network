@@ -1,4 +1,4 @@
-import { ApiResponse, MongoID } from './interfaces'
+import { ApiResponse, MongoID } from '.'
 import * as mongoose from 'mongoose'
 
 export interface IGroup extends mongoose.Document {
