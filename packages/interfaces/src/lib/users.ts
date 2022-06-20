@@ -19,6 +19,11 @@ export interface CreatedUser extends IUser {
   createdAt: Date
 }
 
+export interface LoginParams {
+  email: string
+  password: string
+}
+
 export type SaveUser = (user: IUser) => Promise<ApiResponse>
 
 export type GetUsers = () => Promise<ApiResponse>
@@ -29,15 +34,4 @@ export type UpdateUser = (
 ) => Promise<ApiResponse>
 
 export type GetUser = (id: MongoID) => Promise<ApiResponse>
-
-export type FuncListStr = 'updateUser' | 'getUser' | 'getUsers' | 'saveUser'
-
-export type FuncListMap = {
-  updateUser: UpdateUser
-  getUser: GetUser
-  getUsers: GetUsers
-  saveUser: SaveUser
-}
-
-export type UserArgs = CreatedUser & IUser & MongoID
-export type UserController = () => Promise<ApiResponse>
+export type LoginUser = (body: LoginParams) => Promise<ApiResponse>

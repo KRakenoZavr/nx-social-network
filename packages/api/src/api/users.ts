@@ -1,16 +1,11 @@
 import * as Router from '@koa/router'
 import {
-  saveUser,
   getUsers,
   updateUser,
   getUser,
 } from '@next-electron-app/controllers'
 
 export const router = new Router({ prefix: '/users' })
-
-router.post('/', async (ctx) => {
-  ctx.body = await saveUser(ctx.request.body)
-})
 
 router.get('/', async (ctx) => {
   ctx.body = await getUsers()

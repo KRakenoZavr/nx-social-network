@@ -4,6 +4,8 @@ import * as bodyParser from 'koa-bodyparser'
 import * as mongoose from 'mongoose'
 import * as UserRoutes from './api/users'
 import * as PostRoutes from './api/posts'
+import * as AuthRoutes from './api/auth'
+import { verifyToken } from './middleware/auth'
 
 const app = new Koa()
 const router = new Router()
@@ -11,6 +13,7 @@ const router = new Router()
 app.use(
   bodyParser({
     onerror: function (err, ctx) {
+      console.log('body parse error', err)
       ctx.throw('body parse error', 422)
     },
   })
@@ -32,7 +35,10 @@ app.use(async (ctx, next) => {
   ctx.set('X-Response-Time', `${ms}ms`)
 })
 
+app.use(verifyToken)
+
 app
+  .use(AuthRoutes.router.routes())
   .use(UserRoutes.router.routes())
   .use(PostRoutes.router.routes())
   .use(router.allowedMethods())

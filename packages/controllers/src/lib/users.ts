@@ -4,15 +4,26 @@ import {
   GetUsers,
   GetUser,
   UpdateUser,
+  LoginUser,
 } from '@next-electron-app/interfaces'
 import { User } from '@next-electron-app/models'
 import { MongoServerError } from 'mongodb'
 import { errorHandler } from './helpers'
+import { hash, compare } from 'bcrypt'
+import { sign } from 'jsonwebtoken'
 
-export const saveUser: SaveUser = async (user) => {
+export const registerUser: SaveUser = async (user) => {
   try {
-    const msg = new User(user)
+    const encryptedPassword = await hash(user.password, 10)
+    const msg = new User({ ...user, password: encryptedPassword })
     const data = await msg.save()
+
+    const token = sign({ userID: data._id, email: data.email }, 'kekwpek', {
+      expiresIn: '2h',
+    })
+
+    data.token = token
+
     return {
       data,
       code: 0,
@@ -78,6 +89,34 @@ export const getUser: GetUser = async (id) => {
     }
   } catch (err) {
     console.log({ err, id })
+    return errorHandler(err)
+  }
+}
+
+export const loginUser: LoginUser = async (body) => {
+  try {
+    const { email, password } = body
+
+    const user = await User.findOne({ email })
+
+    if (user && (await compare(password, user.password))) {
+      const token = sign({ userID: user._id, email }, 'kekwpek', {
+        expiresIn: '2h',
+      })
+
+      user.token = token
+
+      return {
+        data: user,
+        code: 0,
+      }
+    }
+    return {
+      data: 'Please check your credentials',
+      code: 1,
+    }
+  } catch (err) {
+    console.log({ err, body })
     return errorHandler(err)
   }
 }
