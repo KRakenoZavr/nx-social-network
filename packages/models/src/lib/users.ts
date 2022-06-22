@@ -51,7 +51,7 @@ const userSchema = new mongoose.Schema({
 })
 
 userSchema.pre('save', function (next) {
-  const now = Date.now()
+  const now = new Date()
 
   this.updatedAt = now
   if (!this.createdAt) {

@@ -23,7 +23,7 @@ const followSchema = new mongoose.Schema({
 })
 
 followSchema.pre('save', function (next) {
-  const now = Date.now()
+  const now = new Date()
 
   this.updatedAt = now
   if (!this.createdAt) {
