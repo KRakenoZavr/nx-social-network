@@ -5,10 +5,12 @@ import * as mongoose from 'mongoose'
 import * as UserRoutes from './api/users'
 import * as PostRoutes from './api/posts'
 import * as AuthRoutes from './api/auth'
-import { verifyToken } from './middleware/auth'
+import { cors, handler, responseTimer, verifyToken } from './middleware/auth'
 
 const app = new Koa()
 const router = new Router()
+
+app.use(cors)
 
 app.use(
   bodyParser({
@@ -19,23 +21,9 @@ app.use(
   })
 )
 
-// logger
-app.use(async (ctx, next) => {
-  console.log(`${ctx.method} ${ctx.url}`)
-  await next()
-  const rt = ctx.response.get('X-Response-Time')
-  console.log(`${ctx.method} ${ctx.url} - ${rt}`)
-})
-
-// x-response-time
-app.use(async (ctx, next) => {
-  const start = Date.now()
-  await next()
-  const ms = Date.now() - start
-  ctx.set('X-Response-Time', `${ms}ms`)
-})
-
+app.use(responseTimer)
 app.use(verifyToken)
+app.use(handler)
 
 app
   .use(AuthRoutes.router.routes())
