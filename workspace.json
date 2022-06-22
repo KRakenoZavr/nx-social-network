@@ -8,6 +8,7 @@
     "forum-e2e": "packages/forum-e2e",
     "interfaces": "packages/interfaces",
     "models": "packages/models",
-    "socket-io": "packages/socket-io"
+    "socket-io": "packages/socket-io",
+    "utils": "packages/utils"
   }
 }
